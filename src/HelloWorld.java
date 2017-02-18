@@ -62,10 +62,11 @@ public class HelloWorld {
 
 		// Fill a Java FloatBuffer object with memory-friendly floats
 		float[] coords = new float[] {
-                 0.5f,  0.5f, 0.0f, // Top Right
-                 0.5f, -0.5f, 0.0f, // Bottom Right
-                -0.5f, -0.5f, 0.0f, // Bottom Left
-                -0.5f,  0.5f, 0.0f  // Top Left
+                // Coordinates       // Colours
+                 0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f, // Top Right
+                 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, // Bottom Right
+                -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f, // Bottom Left
+                -0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 0.0f  // Top Left
         };
 
         int[] indices = new int[] {
@@ -81,12 +82,20 @@ public class HelloWorld {
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);   // Activate the VBO
 		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, fbo, GL15.GL_STATIC_DRAW);  // Send VBO data to GPU
 
-		// Bind the VBO in a Vertex Array Object
+        // Bind the VBO in a Vertex Array Object
 		int vao = GL30.glGenVertexArrays();             // Get an OGL name for the VAO
 		GL30.glBindVertexArray(vao);                    // Activate the VAO
-		GL20.glEnableVertexAttribArray(0);              // Enable the VAO's first attribute (0)
-		GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);  // Link VBO to VAO attrib 0
 
+        // Position attribute
+		GL20.glEnableVertexAttribArray(0);              // Enable the VAO's first attribute (0)
+		GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 6 * 4, 0);  // Link VBO to VAO attrib 0
+
+        // Colour attribute
+        GL20.glEnableVertexAttribArray(1);              // Enable the VAO's second attribute (1)
+        GL20.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, 6 * 4, 3 * 4);  // Link VBO to VAO attrib 1
+
+
+        // Create Element Array Buffer
         int ebo = GL15.glGenBuffers();
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ebo);
         GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indices, GL15.GL_STATIC_DRAW);
