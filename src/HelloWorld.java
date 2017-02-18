@@ -4,12 +4,16 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.*;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.lwjgl.opengl.GL11.*;
 
 public class HelloWorld {
 
@@ -62,18 +66,52 @@ public class HelloWorld {
 
 		// Fill a Java FloatBuffer object with memory-friendly floats
 		float[] coords = new float[] {
-                // Coordinates       // Colours
-                 0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f, // Top Right
-                 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, // Bottom Right
-                -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f, // Bottom Left
-                -0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 0.0f  // Top Left
+                // Coordinates       // Colours         // Textures
+                 0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, // Top Right
+                 0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f, // Bottom Right
+                -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f, // Bottom Left
+                -0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 0.0f,  0.0f, 1.0f  // Top Left
         };
 
         int[] indices = new int[] {
                 0, 1, 3,
                 1, 2, 3
         };
-		FloatBuffer fbo = BufferUtils.createFloatBuffer(coords.length);
+
+        ///////////////////////////////////////////////////////////////////////////
+        // Textures
+
+        int squareSize = 2;
+        int squareNum = 8;
+        int texSize = squareSize * squareNum;
+        byte[] board = genCheckerboard(squareSize, squareNum, null, null);
+        ByteBuffer wrappedRGBA = ByteBuffer.wrap(board);
+
+        int checkerboardTexID = GL11.glGenTextures();
+        GL13.glActiveTexture(checkerboardTexID);
+        GL11.glBindTexture(GL_TEXTURE_2D, checkerboardTexID);
+        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+
+        // Texture wrapping parameters
+        GL11.glTexParameteri(GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
+        GL11.glTexParameteri(GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
+
+        // Texture filtering parameters
+        GL11.glTexParameteri(GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+        GL11.glTexParameteri(GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+
+        // Load texture
+        GL11.glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texSize,
+                texSize, 0, GL_RGBA, GL_UNSIGNED_BYTE, wrappedRGBA);
+        GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+
+        GL11.glBindTexture(GL_TEXTURE_2D, 0);
+
+
+        ///////////////////////////////////////////////////////////////////////////
+        // Buffers
+
+        FloatBuffer fbo = BufferUtils.createFloatBuffer(coords.length);
 		fbo.put(coords);                                // Copy the vertex coords into the floatbuffer
 		fbo.flip();                                     // Mark the floatbuffer ready for reads
 
@@ -88,17 +126,23 @@ public class HelloWorld {
 
         // Position attribute
 		GL20.glEnableVertexAttribArray(0);              // Enable the VAO's first attribute (0)
-		GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 6 * 4, 0);  // Link VBO to VAO attrib 0
+		GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 8 * 4, 0);  // Link VBO to VAO attrib 0
 
         // Colour attribute
         GL20.glEnableVertexAttribArray(1);              // Enable the VAO's second attribute (1)
-        GL20.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, 6 * 4, 3 * 4);  // Link VBO to VAO attrib 1
+        GL20.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, 8 * 4, 3 * 4);  // Link VBO to VAO attrib 1
 
+        // Texture attribute
+        GL20.glEnableVertexAttribArray(2);              // Enable the VAO's third attribute (2)
+        GL20.glVertexAttribPointer(2, 2, GL11.GL_FLOAT, false, 8 * 4, 6 * 4);  // Link VBO to VAO attrib 2
 
         // Create Element Array Buffer
         int ebo = GL15.glGenBuffers();
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ebo);
         GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indices, GL15.GL_STATIC_DRAW);
+
+        GL30.glBindVertexArray(0);
+
 
         ///////////////////////////////////////////////////////////////////////////
         // Transformations
@@ -121,8 +165,17 @@ public class HelloWorld {
 			GLFW.glfwPollEvents();
 
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+
+            GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_REPLACE);
+
+            GL13.glActiveTexture(checkerboardTexID);
+            GL11.glBindTexture(GL_TEXTURE_2D, checkerboardTexID);
+
 			GL30.glBindVertexArray(vao);
             GL11.glDrawElements(GL11.GL_TRIANGLES, 2 * 3, GL11.GL_UNSIGNED_INT, ebo);
+            GL30.glBindVertexArray(0);
+
+
 
             GLFW.glfwSwapBuffers(window);
 		}
@@ -131,6 +184,7 @@ public class HelloWorld {
 		// Clean up
 
 		GL15.glDeleteBuffers(vbo);
+        GL11.glDeleteTextures(checkerboardTexID);
 		GL30.glDeleteVertexArrays(vao);
 		GLFW.glfwDestroyWindow(window);
 		GLFW.glfwTerminate();
@@ -138,7 +192,7 @@ public class HelloWorld {
 	}
 
 
-	public static String[] readShader(String filename) {
+	private static String[] readShader(String filename) {
 		List<String> lines = new ArrayList<>();
 		try {
 			FileReader fileReader = new FileReader("/Users/Dima/Documents/Programming/Java/Graphics/IntelliJ/shaders/" + filename);
@@ -156,4 +210,37 @@ public class HelloWorld {
         arr[0] += '\n';
 		return arr;
 	}
+
+    private static byte[] genCheckerboard(int squareSize, int numSquares, Color color1, Color color2) {
+        int size = squareSize * numSquares;
+        byte[] checkImage = new byte[size * size * 4]; //holds the RGBA texel values
+        Color color;
+        int index = 0;
+        for (int col = 0; col < size; col++) {
+            for (int row = 0; row < size; row++) {
+                // Determine the "super-column" and "super-row"
+                int superCol = col / squareSize; //integer division truncates to
+                int superRow = row / squareSize; // whole super column/row
+                //add the column and row together. If the result is even then the
+                // texel falls in a location which is color1; if odd, color2
+                boolean odd = ((superCol + superRow) % 2) == 0;
+                if (((superCol + superRow) % 2) == 0) {
+                    color = color1;
+                } else {
+                    color = color2;
+                }
+//                checkImage[index++] = (byte) color.getRed();
+//                checkImage[index++] = (byte) color.getGreen();
+//                checkImage[index++] = (byte) color.getBlue();
+//                checkImage[index++] = (byte) 255;
+                checkImage[index++] = (byte) (odd ? 0 : 255);
+                checkImage[index++] = (byte) (odd ? 255 : 0);
+                checkImage[index++] = (byte) (odd ? 255 : 0);
+                checkImage[index++] = (byte) 255;
+
+            }
+        }
+
+        return checkImage;
+    }
 }
