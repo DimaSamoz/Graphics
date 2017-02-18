@@ -1,17 +1,25 @@
 #version 330
 
-in vec4 gl_FragCoord;
 in vec3 newColour;
-in vec2 UV;
-
+in vec3 newNormal;
+in vec3 fragPos;
 out vec4 colour;
 
-uniform sampler2D newTexture;
-
 void main(){
-    float x_pos = floor(gl_FragCoord.x / 100.0);
-    float y_pos = floor(gl_FragCoord.y / 75.0);
-    float mask = mod(x_pos + mod(y_pos, 2.0), 2.0);
 
-    colour = vec4(newColour, 1.0f);
+    float ambient = 0.2;
+
+    float diffuseIntensity = 1.0;
+    vec3 lightPosition = vec3(-2.5, -2.0, 3.0);
+    vec3 norm = normalize(newNormal);
+    vec3 lightDir = normalize(lightPosition - fragPos);
+    float diffuse = diffuseIntensity * max(dot(norm, lightDir), 0.0);
+
+    float specularIntensity = 0.5;
+    vec3 viewPosition = vec3(1.5, 1.5, 2.5);
+    vec3 viewDir = normalize(fragPos - viewPosition);
+    vec3 reflectDir = reflect(lightDir, norm);
+    float specular = specularIntensity * (pow(clamp(0, dot(viewDir, reflectDir), 1), 32));
+
+    colour = vec4((ambient + diffuse + specular) * newColour, 1.0f);
 }

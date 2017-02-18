@@ -38,7 +38,7 @@ public class HelloWorld {
 		// Set up OpenGL
 
 		GL.createCapabilities();
-		GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		GL11.glClearColor(0.2f, 0.2f, 0.2f, 0.2f);
 		GL11.glClearDepth(1.0f);
 
         // Enable depth test
@@ -82,25 +82,50 @@ public class HelloWorld {
                 -0.5f,  0.5f, -1.0f,  0.0f, 1.0f, 0.5f,  0.0f, 1.0f  // Top Left
         };
 
-        int[] indices = new int[] {
-                0, 1, 3,
-                1, 2, 3,
+        float vertices[] = {
+                -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f,  0.0f, 0.0f, -1.0f,
+                0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 1.0f,  0.0f, 0.0f, -1.0f,
+                0.5f, 0.5f, -0.5f,   1.0f, 1.0f, 0.0f,  0.0f, 0.0f, -1.0f,
+                0.5f, 0.5f, -0.5f,   1.0f, 1.0f, 0.0f,  0.0f, 0.0f, -1.0f,
+                -0.5f, 0.5f, -0.5f,  1.0f, 0.0f, 1.0f,  0.0f, 0.0f, -1.0f,
+                -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f,  0.0f, 0.0f, -1.0f,
 
-                0, 4, 1,
-                4, 5, 1,
+                -0.5f, -0.5f, 0.5f,  0.0f, 1.0f, 1.0f,   0.0f, 0.0f, 1.0f,
+                0.5f, -0.5f, 0.5f,   1.0f, 0.0f, 1.0f,   0.0f, 0.0f, 1.0f,
+                0.5f, 0.5f, 0.5f,    1.0f, 1.0f, 0.0f,   0.0f, 0.0f, 1.0f,
+                0.5f, 0.5f, 0.5f,    1.0f, 1.0f, 0.0f,   0.0f, 0.0f, 1.0f,
+                -0.5f, 0.5f, 0.5f,   1.0f, 0.0f, 1.0f,   0.0f, 0.0f, 1.0f,
+                -0.5f, -0.5f, 0.5f,  0.0f, 1.0f, 1.0f,   0.0f, 0.0f, 1.0f,
 
-                4, 5, 7,
-                7, 6, 5,
+                -0.5f, 0.5f, 0.5f,   0.0f, 1.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
+                -0.5f, 0.5f, -0.5f,  1.0f, 0.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
+                -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
+                -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
+                -0.5f, -0.5f, 0.5f,  1.0f, 0.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
+                -0.5f, 0.5f, 0.5f,   0.0f, 1.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
 
-                7, 3, 6,
-                3, 2, 6,
+                0.5f, 0.5f, 0.5f,    1.0f, 1.0f, 0.0f,  1.0f, 0.0f, 0.0f,
+                0.5f, 0.5f, -0.5f,   1.0f, 0.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+                0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+                0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+                0.5f, -0.5f, 0.5f,   1.0f, 0.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+                0.5f, 0.5f, 0.5f,    1.0f, 1.0f, 0.0f,  1.0f, 0.0f, 0.0f,
 
-                3, 7, 4,
-                0, 3, 4,
+                -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f,  0.0f, -1.0f, 0.0f,
+                0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 1.0f,  0.0f, -1.0f, 0.0f,
+                0.5f, -0.5f, 0.5f,   1.0f, 1.0f, 0.0f,  0.0f, -1.0f, 0.0f,
+                0.5f, -0.5f, 0.5f,   1.0f, 1.0f, 0.0f,  0.0f, -1.0f, 0.0f,
+                -0.5f, -0.5f, 0.5f,  1.0f, 0.0f, 1.0f,  0.0f, -1.0f, 0.0f,
+                -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f,  0.0f, -1.0f, 0.0f,
 
-                1, 5, 6,
-                6, 2, 1
+                -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 1.0f,   0.0f, 1.0f, 0.0f,
+                0.5f, 0.5f, -0.5f,  1.0f, 0.0f, 1.0f,   0.0f, 1.0f, 0.0f,
+                0.5f, 0.5f, 0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f, 0.0f,
+                0.5f, 0.5f, 0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f, 0.0f,
+                -0.5f, 0.5f, 0.5f,  1.0f, 0.0f, 1.0f,   0.0f, 1.0f, 0.0f,
+                -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 1.0f,   0.0f, 1.0f, 0.0f
         };
+
 
         ///////////////////////////////////////////////////////////////////////////
         // Textures
@@ -135,8 +160,8 @@ public class HelloWorld {
         ///////////////////////////////////////////////////////////////////////////
         // Buffers
 
-        FloatBuffer fbo = BufferUtils.createFloatBuffer(coords.length);
-		fbo.put(coords);                                // Copy the vertex coords into the floatbuffer
+        FloatBuffer fbo = BufferUtils.createFloatBuffer(vertices.length);
+		fbo.put(vertices);                              // Copy the vertex coords into the floatbuffer
 		fbo.flip();                                     // Mark the floatbuffer ready for reads
 
 		// Store the FloatBuffer's contents in a Vertex Buffer Object
@@ -150,20 +175,20 @@ public class HelloWorld {
 
         // Position attribute
 		GL20.glEnableVertexAttribArray(0);              // Enable the VAO's first attribute (0)
-		GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 8 * 4, 0);  // Link VBO to VAO attrib 0
+		GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 9 * 4, 0);  // Link VBO to VAO attrib 0
 
         // Colour attribute
         GL20.glEnableVertexAttribArray(1);              // Enable the VAO's second attribute (1)
-        GL20.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, 8 * 4, 3 * 4);  // Link VBO to VAO attrib 1
+        GL20.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, 9 * 4, 3 * 4);  // Link VBO to VAO attrib 1
 
         // Texture attribute
         GL20.glEnableVertexAttribArray(2);              // Enable the VAO's third attribute (2)
-        GL20.glVertexAttribPointer(2, 2, GL11.GL_FLOAT, false, 8 * 4, 6 * 4);  // Link VBO to VAO attrib 2
+        GL20.glVertexAttribPointer(2, 3, GL11.GL_FLOAT, false, 9 * 4, 6 * 4);  // Link VBO to VAO attrib 2
 
         // Create Element Array Buffer
-        int ebo = GL15.glGenBuffers();
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ebo);
-        GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indices, GL15.GL_STATIC_DRAW);
+//        int ebo = GL15.glGenBuffers();
+//        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ebo);
+//        GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indices, GL15.GL_STATIC_DRAW);
 
         GL30.glBindVertexArray(0);
 
@@ -176,13 +201,13 @@ public class HelloWorld {
         Matrix4f ortho = new Matrix4f()
                 .ortho(-1.2f, 1.2f, -1.0f, 1.0f, 0.01f, 100.0f)
                 .lookAt(1.5f, 1.5f, 2.5f,
-                        0.5f, 0.5f, 0.5f,
+                        0.0f, 0.0f, 0.0f,
                         0.0f, 1.0f, 0.0f);
 
         Matrix4f persp = new Matrix4f()
                 .perspective((float) Math.toRadians(45.0f), 1, 0.01f, 100.0f)
                 .lookAt(1.5f, 1.5f, 2.5f,
-                        0.5f, 0.5f, 0.5f,
+                        0.0f, 0.0f, 0.0f,
                         0.0f, 1.0f, 0.0f);
 
         persp.get(fb);
@@ -204,7 +229,8 @@ public class HelloWorld {
             GL11.glBindTexture(GL_TEXTURE_2D, checkerboardTexID);
 
 			GL30.glBindVertexArray(vao);
-            GL11.glDrawElements(GL11.GL_TRIANGLES, indices.length * 3, GL11.GL_UNSIGNED_INT, ebo);
+//            GL11.glDrawElements(GL11.GL_TRIANGLES, indices.length * 3, GL11.GL_UNSIGNED_INT, ebo);
+            GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vertices.length / 3);
             GL30.glBindVertexArray(0);
 
 
