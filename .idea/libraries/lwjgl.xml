@@ -1,0 +1,31 @@
+<component name="libraryTable">
+  <library name="lwjgl">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-glfw.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-jemalloc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-openal.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-opengl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-stb.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-glfw-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-jemalloc-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-openal-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-opengl-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-stb-javadoc.jar!/" />
+    </JAVADOC>
+    <NATIVE>
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-glfw-natives-macos.jar!/libglfw.dylib" />
+    </NATIVE>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-glfw-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-jemalloc-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-openal-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-opengl-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lwjgl-release-3.1.1-custom (1)/lwjgl-stb-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
