@@ -29,7 +29,7 @@ public class HelloWorld {
 		GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 3);
 		GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_PROFILE, GLFW.GLFW_OPENGL_CORE_PROFILE);
 		GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_FORWARD_COMPAT, GLFW.GLFW_TRUE);
-		long window = GLFW.glfwCreateWindow(800 /* width */, 600 /* height */, "HelloGL", 0, 0);
+		long window = GLFW.glfwCreateWindow(800 /* width */, 800 /* height */, "HelloGL", 0, 0);
 		GLFW.glfwMakeContextCurrent(window);
 		GLFW.glfwSwapInterval(1);
 		GLFW.glfwShowWindow(window);
@@ -40,6 +40,11 @@ public class HelloWorld {
 		GL.createCapabilities();
 		GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		GL11.glClearDepth(1.0f);
+
+        // Enable depth test
+        glEnable(GL_DEPTH_TEST);
+        // Accept fragment if it closer to the camera than the former one
+        glDepthFunc(GL_LESS);
 
 		///////////////////////////////////////////////////////////////////////////
 		// Set up minimal shader programs
@@ -67,15 +72,34 @@ public class HelloWorld {
 		// Fill a Java FloatBuffer object with memory-friendly floats
 		float[] coords = new float[] {
                 // Coordinates       // Colours         // Textures
-                 0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, // Top Right
-                 0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f, // Bottom Right
-                -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f, // Bottom Left
-                -0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 0.0f,  0.0f, 1.0f  // Top Left
+                 0.5f,  0.5f,  0.0f,  1.0f, 1.0f, 0.0f,  1.0f, 1.0f, // Top Right
+                 0.5f, -0.5f,  0.0f,  0.0f, 1.0f, 1.0f,  1.0f, 0.0f, // Bottom Right
+                -0.5f, -0.5f,  0.0f,  1.0f, 0.0f, 1.0f,  0.0f, 0.0f, // Bottom Left
+                -0.5f,  0.5f,  0.0f,  0.0f, 0.5f, 0.0f,  0.0f, 1.0f, // Top Left
+                 0.5f,  0.5f, -1.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, // Top Right
+                 0.5f, -0.5f, -1.0f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f, // Bottom Right
+                -0.5f, -0.5f, -1.0f,  0.0f, 1.0f, 1.0f,  0.0f, 0.0f, // Bottom Left
+                -0.5f,  0.5f, -1.0f,  0.0f, 1.0f, 0.5f,  0.0f, 1.0f  // Top Left
         };
 
         int[] indices = new int[] {
                 0, 1, 3,
-                1, 2, 3
+                1, 2, 3,
+
+                0, 4, 1,
+                4, 5, 1,
+
+                4, 5, 7,
+                7, 6, 5,
+
+                7, 3, 6,
+                3, 2, 6,
+
+                3, 7, 4,
+                0, 3, 4,
+
+                1, 5, 6,
+                6, 2, 1
         };
 
         ///////////////////////////////////////////////////////////////////////////
@@ -148,12 +172,20 @@ public class HelloWorld {
         // Transformations
 
         FloatBuffer fb = BufferUtils.createFloatBuffer(16);
-//        new Matrix4f().perspective((float) Math.toRadians(45.0f), 8.0f / 6.0f, 0.01f, 100.0f)
-//                .lookAt(2.0f, 1.5f, 1.5f,
-//                        0.0f, 0.0f, 0.0f,
-//                        0.0f, 1.0f, 0.0f)
-//                .get(fb);
-        new Matrix4f().get(fb);
+        Matrix4f ident = new Matrix4f();
+        Matrix4f ortho = new Matrix4f()
+                .ortho(-1.2f, 1.2f, -1.0f, 1.0f, 0.01f, 100.0f)
+                .lookAt(1.5f, 1.5f, 2.5f,
+                        0.5f, 0.5f, 0.5f,
+                        0.0f, 1.0f, 0.0f);
+
+        Matrix4f persp = new Matrix4f()
+                .perspective((float) Math.toRadians(45.0f), 1, 0.01f, 100.0f)
+                .lookAt(1.5f, 1.5f, 2.5f,
+                        0.5f, 0.5f, 0.5f,
+                        0.0f, 1.0f, 0.0f);
+
+        persp.get(fb);
 
         int mat4Location = GL20.glGetUniformLocation(program, "MVP");
         GL20.glUniformMatrix4fv(mat4Location, false, fb);
@@ -172,7 +204,7 @@ public class HelloWorld {
             GL11.glBindTexture(GL_TEXTURE_2D, checkerboardTexID);
 
 			GL30.glBindVertexArray(vao);
-            GL11.glDrawElements(GL11.GL_TRIANGLES, 2 * 3, GL11.GL_UNSIGNED_INT, ebo);
+            GL11.glDrawElements(GL11.GL_TRIANGLES, indices.length * 3, GL11.GL_UNSIGNED_INT, ebo);
             GL30.glBindVertexArray(0);
 
 

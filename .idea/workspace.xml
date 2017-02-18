@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="739e711d-7c49-40be-9ec0-141c25e621fe" name="Default" comment="Initial commit (checkerboard pattern)">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shaders/fragment.frag" afterPath="$PROJECT_DIR$/shaders/fragment.frag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shaders/vertex.vert" afterPath="$PROJECT_DIR$/shaders/vertex.vert" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/HelloWorld.java" afterPath="$PROJECT_DIR$/src/HelloWorld.java" />
     </list>
     <ignored path="IntelliJ.iws" />
@@ -42,8 +40,8 @@
       <file leaf-file-name="HelloWorld.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/HelloWorld.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="497">
-              <caret line="207" column="9" selection-start-line="207" selection-start-column="9" selection-end-line="207" selection-end-column="9" />
+            <state relative-caret-position="550">
+              <caret line="187" column="13" selection-start-line="187" selection-start-column="13" selection-end-line="187" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -684,7 +682,7 @@
       <updated>1487254695303</updated>
       <workItem from="1487254697132" duration="4543000" />
       <workItem from="1487259398083" duration="5262000" />
-      <workItem from="1487411035620" duration="14537000" />
+      <workItem from="1487411035620" duration="15732000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit (checkerboard pattern)">
       <created>1487413031260</created>
@@ -697,7 +695,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24342000" />
+    <option name="totallyTimeSpent" value="25537000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1023" extended-state="6" />
@@ -750,7 +748,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/HelloWorld.java</url>
-          <line>214</line>
+          <line>246</line>
           <properties />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
@@ -915,8 +913,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/HelloWorld.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="207" column="9" selection-start-line="207" selection-start-column="9" selection-end-line="207" selection-end-column="9" />
+        <state relative-caret-position="550">
+          <caret line="187" column="13" selection-start-line="187" selection-start-column="13" selection-end-line="187" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
